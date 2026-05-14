@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page 1</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body class="other-page">
+
+
+  <a href="page2.html" class="next-arrow">↓</a>
+  <script src="js/p5.min.js"></script>
+
+  <script>
+    let letters = [];
+    let stars = [];
+
+    let phrase = "you came";
+    let letterSpacing = 60;
+    
+    function preload() {
+      cursorImg = loadImage("img/Asset 2-8.png");
+    }
+
+    function setup() {
+      let canvas = createCanvas(windowWidth, windowHeight);
+      canvas.position(0, 0);
+      canvas.style("z-index", "-1");
+      noCursor();
+
+      textFont("Courier New");
+
+      makeStars();
+      makeLetters();
+    }
+
+    function draw() {
+      background(0);
+
+      drawStars();
+      moveLetters();
+      image(cursorImg, mouseX - 20, mouseY - 20, 40, 40);
+
+    }
+
+    function makeStars() {
+      for (let i = 0; i < 200; i++) {
+        let star = {
+          x: random(width),
+          y: random(height),
+          size: random(1, 4),
+          brightness: random(150, 255)
+        };
+
+        stars.push(star);
+      }
+    }
+
+    function makeLetters() {
+      let phraseWidth = phrase.length * letterSpacing;
+      let startX = (width - phraseWidth) / 2;
+      let startY = height / 2;
+
+      for (let i = 0; i < phrase.length; i++) {
+        if (phrase[i] == " ") {
+          letters.push(null);
+        } else {
+          let letter = {
+            char: phrase[i],
+            x: startX + i * letterSpacing,
+            y: startY,
+            homeX: startX + i * letterSpacing,
+            homeY: startY,
+            speedX: 0,
+            speedY: 0
+          };
+
+          letters.push(letter);
+        }
+      }
+    }
+
+    function drawStars() {
+      noStroke();
+
+      for (let i = 0; i < stars.length; i++) {
+        fill(stars[i].brightness);
+        ellipse(stars[i].x, stars[i].y, stars[i].size);
+      }
+    }
+
+    function moveLetters() {
+      textSize(64);
+      textAlign(CENTER, CENTER);
+
+      for (let i = 0; i < letters.length; i++) {
+        let letter = letters[i];
+
+        if (letter == null) {
+          continue;
+        }
+
+        let distanceX = letter.x - mouseX;
+        let distanceY = letter.y - mouseY;
+        let distance = sqrt(distanceX * distanceX + distanceY * distanceY);
+
+        let pushDistance = 100;
+
+        if (distance < pushDistance && distance > 0) {
+          let pushAmount = (pushDistance - distance) / pushDistance;
+
+          letter.speedX += (distanceX / distance) * pushAmount * 8;
+          letter.speedY += (distanceY / distance) * pushAmount * 8;
+        }
+
+        letter.speedX += (letter.homeX - letter.x) * 0.05;
+        letter.speedY += (letter.homeY - letter.y) * 0.05;
+
+        letter.speedX = letter.speedX * 0.85;
+        letter.speedY = letter.speedY * 0.85;
+
+        letter.x = letter.x + letter.speedX;
+        letter.y = letter.y + letter.speedY;
+
+        fill(255);
+        text(letter.char, letter.x, letter.y);
+      }
+    }
+
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+
+      letters = [];
+      makeLetters();
+    }
+  </script>
+
+</body>
+</html>

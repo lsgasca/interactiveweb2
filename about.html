@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>About</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <script src="js/p5.min.js"></script>
+
+  <script>
+    let cursorImg;
+  
+    function preload() {
+      cursorImg = loadImage("img/Asset 2-8.png");
+    }
+  
+    function setup() {
+      let canvas = createCanvas(windowWidth, windowHeight);
+      canvas.position(0, 0);
+      canvas.style("z-index", "10");
+      canvas.style("pointer-events", "none");
+  
+      noCursor();
+    }
+  
+    function draw() {
+      clear();
+      image(cursorImg, mouseX - 20, mouseY - 20, 40, 40);
+    }
+  
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+    }
+  </script>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: "Courier New", monospace;
+      overflow: hidden;
+    }
+
+    nav {
+      position: relative;
+      z-index: 2;
+    }
+
+    .about-container {
+      width: 70%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding-top: 20vh;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 64px;
+      letter-spacing: 8px;
+      font-weight: normal;
+      text-shadow: 0 0 15px rgba(180, 220, 255, 0.8);
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.7;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px rgba(180, 220, 255, 0.4);
+    }
+
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body class="about">
+    <a href="index.html" class="next-arrow">↓</a>
+
+  
+
+    <div class="star" style="top: 5%; left: 10%;"></div>
+    <div class="star" style="top: 8%; left: 35%;"></div>
+    <div class="star" style="top: 12%; left: 60%;"></div>
+    <div class="star" style="top: 18%; left: 85%;"></div>
+    <div class="star" style="top: 25%; left: 5%;"></div>
+    <div class="star" style="top: 30%; left: 90%;"></div>
+    <div class="star" style="top: 85%; left: 10%;"></div>
+    <div class="star" style="top: 88%; left: 30%;"></div>
+    <div class="star" style="top: 92%; left: 60%;"></div>
+    <div class="star" style="top: 95%; left: 80%;"></div>
+    <div class="star" style="top: 70%; left: 5%;"></div>
+    <div class="star" style="top: 60%; left: 3%;"></div>
+    <div class="star" style="top: 55%; left: 97%;"></div>
+    <div class="star" style="top: 40%; left: 95%;"></div>
+
+
+  
+
+
+
+
+
+  <div class="about-container">
+    <h1>About</h1>
+
+    <p>
+      Hi, my name is Lucia Gasca, and I’m a design student at the University of San Francisco.
+      This project is an interactive typography website created with p5.js and VS Code.
+      Across three pages, the quote “you came exactly when you needed to” is broken apart
+      and explored through movement, fading text, glowing letters, stars, and cursor interaction.
+      The space-inspired theme reflects the quiet, dark, and reflective feeling of the quote,
+      inviting the viewer to move through the words slowly and personally.
+    </p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Page 2</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body class="other-page">
+
+  <a href="page3.html" class="next-arrow">↓</a>
+  <script src="js/p5.min.js"></script>
+
+  <script>
+    let stars = [];
+    let phrase = "exactly when";
+    let spacing = 48;
+    let cursorImg;
+
+    function preload() {
+      cursorImg = loadImage("img/Asset 2-8.png");
+    }
+
+    function setup() {
+      let canvas = createCanvas(windowWidth, windowHeight);
+      canvas.position(0, 0);
+      canvas.style("z-index", "-1");
+
+      noCursor();
+      textFont("Courier New");
+
+      makeStars();
+    }
+
+    function makeStars() {
+      stars = [];
+
+      for (let i = 0; i < 200; i++) {
+        stars.push({
+          x: random(width),
+          y: random(height),
+          size: random(1, 4),
+          brightness: random(150, 255)
+        });
+      }
+    }
+
+    function draw() {
+      background(0);
+
+      drawStars();
+
+      textSize(52);
+      textAlign(CENTER, CENTER);
+
+      let startX = width / 2 - (phrase.length * spacing) / 2;
+      let y = height / 2;
+
+      for (let i = 0; i < phrase.length; i++) {
+        let letter = phrase[i];
+        let x = startX + i * spacing;
+
+        if (letter !== " ") {
+          let distance = dist(mouseX, mouseY, x, y);
+          let glow = 0;
+
+          if (distance < 160) {
+            glow = map(distance, 0, 160, 3, 0);
+          }
+
+          drawLetter(letter, x, y, glow);
+        }
+      }
+
+      image(cursorImg, mouseX - 20, mouseY - 20, 40, 40);
+    }
+
+    function drawStars() {
+      noStroke();
+
+      for (let i = 0; i < stars.length; i++) {
+        fill(stars[i].brightness);
+        ellipse(stars[i].x, stars[i].y, stars[i].size);
+      }
+    }
+
+    function drawLetter(letter, x, y, glow) {
+      noFill();
+      stroke(180, 220, 255, 50 * glow);
+      strokeWeight(10 * glow);
+      text(letter, x, y);
+
+      stroke(180, 220, 255, 120 * glow);
+      strokeWeight(5 * glow);
+      text(letter, x, y);
+
+      fill(255);
+      stroke(255);
+      strokeWeight(1);
+      text(letter, x, y);
+    }
+
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+      makeStars();
+    }
+  </script>
+
+</body>
+</html>

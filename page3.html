@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Page 3</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body class="other-page">
+
+  <a href="about.html" class="next-arrow">↓</a>
+
+  <script src="js/p5.min.js"></script>
+
+  <script>
+    let stars = [];
+    let phrase1 = "you needed to";
+    let phrase2 = "i needed you";
+    let cursorImg;
+
+    function preload() {
+      cursorImg = loadImage("img/Asset 2-8.png");
+    }
+
+    function setup() {
+      let canvas = createCanvas(windowWidth, windowHeight);
+      canvas.position(0, 0);
+      canvas.style("z-index", "-1");
+
+      noCursor();
+      textFont("Courier New");
+
+      makeStars();
+    }
+
+    function makeStars() {
+      stars = [];
+      for (let i = 0; i < 200; i++) {
+        stars.push({
+          x: random(width),
+          y: random(height),
+          size: random(1, 4),
+          brightness: random(150, 255)
+        });
+      }
+    }
+
+    function draw() {
+  background(0);
+  drawStars();
+
+  textSize(64);
+  textAlign(CENTER, CENTER);
+
+  let letterSpacing = 60;
+  let centerY = height / 2;
+
+  let phraseWidth = phrase1.length * letterSpacing;
+  let startX = (width - phraseWidth) / 2;
+
+  
+  let left = startX;
+  let right = startX + phraseWidth;
+  let top = centerY - 32;
+  let bottom = centerY + 32;
+
+  let closestX = constrain(mouseX, left, right);
+  let closestY = constrain(mouseY, top, bottom);
+  let d = dist(mouseX, mouseY, closestX, closestY);
+
+  let fade = map(d, 200, 0, 0, 1);
+  fade = constrain(fade, 0, 1);
+
+  if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+    fade = 1;
+  }
+
+  for (let i = 0; i < phrase1.length; i++) {
+    let x = startX + i * letterSpacing;
+
+    let l1 = phrase1[i];
+    let l2 = phrase2[i];
+
+    if (l1 !== " ") {
+      fill(255, 255 - fade * 255);
+      stroke(255, 255 - fade * 255);
+      strokeWeight(1);
+      text(l1, x, centerY);
+    }
+
+    if (l2 !== " ") {
+      noFill();
+      stroke(180, 220, 255, 60 * fade);
+      strokeWeight(8);
+      text(l2, x, centerY);
+
+      stroke(180, 220, 255, 100 * fade);
+      strokeWeight(4);
+      text(l2, x, centerY);
+
+      fill(255, fade * 255);
+      stroke(255, fade * 255);
+      strokeWeight(1);
+      text(l2, x, centerY);
+    }
+  }
+
+  image(cursorImg, mouseX - 20, mouseY - 20, 40, 40);
+}
+    function drawStars() {
+      noStroke();
+      for (let i = 0; i < stars.length; i++) {
+        fill(stars[i].brightness);
+        ellipse(stars[i].x, stars[i].y, stars[i].size);
+      }
+    }
+
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+      makeStars();
+    }
+  </script>
+
+</body>
+</html>
